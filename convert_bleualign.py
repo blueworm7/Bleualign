@@ -21,7 +21,6 @@ def convert_bleu_align_format(in_file):
         for line in open(in_file, 'r'):
             doc_id, line_id, src_sent, trans_sent = line.strip().split('\t')
             if prev_doc_id != doc_id:
-                eprint("{}\t{}".format(prev_doc_id, doc_id))
                 s_f.write("{}\n".format(END_OF_ARTICLE_TAG))
                 t_f.write("{}\n".format(END_OF_ARTICLE_TAG))
             s_f.write("{}\n".format(normalize(src_sent)))
