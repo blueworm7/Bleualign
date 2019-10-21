@@ -16,22 +16,24 @@ ba_src_trans=${paste_en}.baform.trans
 ba_tgt_trans=${paste_ko}.baform.trans
 ba_out_prefix=${folder}/${tag}.aligned
 
-cut -f3 ${org_en} > ${src_en}
-cut -f3 ${org_ko} > ${src_ko}
-cur_pwd=${PWD}
-cd /input/AIRLab/nmt/HNMT/translate/
-./translate.enko.sh 0 ${src_en} ${tgt_en} 1> ${folder}/ted.enko.trans.log 2>&1 &
-./translate.koen.sh 1 ${src_ko} ${tgt_ko} 1> ${folder}/ted.koen.trans.log 2>&1 
-wait
-sleep 5
+#cut -f3 ${org_en} > ${src_en}
+#cut -f3 ${org_ko} > ${src_ko}
+#cur_pwd=${PWD}
+#cd /input/AIRLab/nmt/HNMT/translate/
+#./translate.enko.sh 0 ${src_en} ${tgt_en} 1> ${folder}/ted.enko.trans.log 2>&1 &
+#./translate.koen.sh 1 ${src_ko} ${tgt_ko} 1> ${folder}/ted.koen.trans.log 2>&1 
+#wait
+#sleep 5
 
-paste ${org_en} ${tgt_en} > ${paste_en}
-paste ${org_ko} ${tgt_ko} > ${paste_ko}
+#paste ${org_en} ${tgt_en} > ${paste_en}
+#paste ${org_ko} ${tgt_ko} > ${paste_ko}
 
-cd ${cur_pwd}
-python ./convert_bleualign.py -i ${paste_en}
-python ./convert_bleualign.py -i ${paste_ko}
+#cd ${cur_pwd}
+#python ./convert_bleualign.py -i ${paste_en}
+#python ./convert_bleualign.py -i ${paste_ko}
 
-python bleualign.py -s ${ba_src} -t ${ba_tgt} --srctotarget ${ba_src_trans} --targettosrc ${ba_tgt_trans} -o ${ba_out_prefix}  
-mv ${ba_out_prefix}-s ${ba_out_prefix}.en
-mv ${ba_out_prefix}-t ${ba_out_prefix}.ko
+#python bleualign.py -s ${ba_src} -t ${ba_tgt} --srctotarget ${ba_src_trans} --targettosrc ${ba_tgt_trans} -o ${ba_out_prefix}  
+python remove_duplicate.py --max-freq 2 -s ${ba_out_prefix}-s -t ${ba_out_prefix}-t --out-src ${ba_out_prefix}-s.no_dup --out-tgt ${ba_out_prefix}-t.no_dup
+cp ${ba_out_prefix}-s.no_dup ${ba_out_prefix}.en
+cp ${ba_out_prefix}-t.no_dup ${ba_out_prefix}.ko
+mv ${ba_out_prefix}.en ${ba_out_prefix}.ko ${folder}/../parsed/
