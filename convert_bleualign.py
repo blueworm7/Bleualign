@@ -5,7 +5,11 @@ import os
 import sys
 import argparse
 
+import secrets
+
+
 END_OF_ARTICLE_TAG='.EOA'
+DUMMY_ARTICLE_TAG='.DUMMY_ARTICLE'
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -32,8 +36,8 @@ def convert_bleu_align_format(in_file):
                 t_f.write("{}\n".format(END_OF_ARTICLE_TAG))
                 if prev_doc_id != doc_id -1:
                     for i in range(prev_doc_id, doc_id - 1):
-                        s_f.write("DUMMY\n{}\n".format(END_OF_ARTICLE_TAG))
-                        t_f.write("DUMMY TRANS\n{}\n".format(END_OF_ARTICLE_TAG))
+                        s_f.write("{}\n{}\n".format(DUMMY_ARTICLE_TAG,END_OF_ARTICLE_TAG))
+                        t_f.write("{}\n{}\n".format(DUMMY_ARTICLE_TAG,END_OF_ARTICLE_TAG))
             s_f.write("{}\n".format(normalize(src_sent)))
             t_f.write("{}\n".format(normalize(trans_sent)))
             prev_doc_id = doc_id
