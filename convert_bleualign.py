@@ -17,15 +17,27 @@ def normalize(sent):
 
 def convert_bleu_align_format(in_file):
     prev_doc_id = "0"
+    line_num=0
     with open(in_file+'.baform.src', 'w') as s_f, open(in_file+'.baform.trans', 'w') as t_f:
         for line in open(in_file, 'r'):
-            doc_id, line_id, src_sent, trans_sent = line.strip().split('\t')
+            try:
+                doc_id, line_id, src_len, src_sent, trans_sent = line.strip().split('\t')
+            except:
+                eprint("ERROR OCCURED! {}:{}".format(line_num, line))
+
+            prev_doc_id = int(prev_doc_id)
+            doc_id = int(doc_id)
             if prev_doc_id != doc_id:
                 s_f.write("{}\n".format(END_OF_ARTICLE_TAG))
                 t_f.write("{}\n".format(END_OF_ARTICLE_TAG))
+                if prev_doc_id != doc_id -1:
+                    for i in range(prev_doc_id, doc_id - 1):
+                        s_f.write("DUMMY\n{}\n".format(END_OF_ARTICLE_TAG))
+                        t_f.write("DUMMY TRANS\n{}\n".format(END_OF_ARTICLE_TAG))
             s_f.write("{}\n".format(normalize(src_sent)))
             t_f.write("{}\n".format(normalize(trans_sent)))
             prev_doc_id = doc_id
+            line_num += 1
 
 
 
