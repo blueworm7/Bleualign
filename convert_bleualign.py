@@ -25,9 +25,9 @@ def convert_bleu_align_format(in_file):
     with open(in_file+'.baform.src', 'w') as s_f, open(in_file+'.baform.trans', 'w') as t_f:
         for line in open(in_file, 'r'):
             try:
-                doc_id, line_id, src_len, src_sent, trans_sent = line.strip().split('\t')
+                doc_id, line_id, src_sent, trans_sent = line.strip().split('\t')
             except:
-                eprint("ERROR OCCURED! {}:{}".format(line_num, line))
+                eprint("ERROR OCCURED! {}:|{}|".format(line_num, line))
 
             prev_doc_id = int(prev_doc_id)
             doc_id = int(doc_id)
