@@ -1,6 +1,6 @@
 #/bin/sh
 folder="/nlp2/nmt/corpus.crawl/bi/ko_zhcn/d_news_crawl"
-tag="donga.crawled.20210115"
+tag="dnews.crawled.20210115"
 org_ko=${folder}/${tag}.ko
 org_zhcn=${folder}/${tag}.zhcn
 src_ko=${folder}/${tag}.sentonly.ko
